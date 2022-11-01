@@ -1,6 +1,10 @@
-export const mainPage = (req:any, res:any, next:any) => {
+import {Request, Response} from 'express';
+
+require('dotenv').config({path: '../.env'});
+
+export const mainPage = (req:Request, res:any) => {
     console.log('router works!');
-    res.end('hello!');
+    res.send('hello!');
 };
 
 
