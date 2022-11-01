@@ -22,7 +22,7 @@ module.exports = {
     resolve: {
         extensions: ['.ts', '.tsx', '.js']
     },
-    target: 'web',
+    target: 'node',
     devServer: {
         static: {
             directory: path.join(__dirname, './dist/index.html'),
