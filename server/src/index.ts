@@ -4,6 +4,8 @@ const express = require('express');
 require('dotenv').config({path: '../.env'})
 //const jsonParser = express.json();
 
+const PORT = parseInt(process.env.PORT, 10);
+
 //user functions
 import {mainPage} from "./Router";
 
@@ -21,8 +23,8 @@ const start = async () => {
     } catch (e) {
         console.log(e)
     } finally {
-        app.listen(process.env.PORT, process.env.IP, () => {
-            console.log(`server started on port ${process.env.PORT}`);
+        app.listen(3000, process.env.IP, () => {
+            console.log(`server started on port 3000!`);
         })
     }
 }
