@@ -6,10 +6,7 @@ const mongoose = require('mongoose');
 const {Router} = require('express');
 const authRouter = new Router();
 
-const userSchema = new mongoose.Schema({
-    email: String,
-    password: String,
-})
+const {User} = require('./Schemas/User')
 
 authRouter.post('/registration',
     [
@@ -23,7 +20,6 @@ authRouter.post('/registration',
 
         const {email, password} = req.body;
 
-        const User = mongoose.model("User", userSchema);
         const tempUser = await User.findOne({email});
 
         if (tempUser) return res.status(400).json({message: `user with email ${email} already exist`});
