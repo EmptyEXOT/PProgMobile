@@ -1,5 +1,6 @@
-{"signal": "SIGTERM",
+{
+  "signal": "SIGTERM",
   "env": {"NODE_ENV": "development"},
-  "ext": "ts",
+  "ext": "js",
   "exec": "ts-node ./src/index.ts"
 }

@@ -1,23 +1,29 @@
 //libs
-const {MongoClient} = require('mongodb');
 const express = require('express');
-require('dotenv').config({path: '../.env'})
-//const jsonParser = express.json();
+
+
+//dotenv
+require('dotenv').config()
 
 //user functions
 import {mainPage} from "./Router";
+import {connectDB} from "./database/database";
+const mongoose = require('mongoose');
+//mongodb initialization
 
 //express app initialization
 const app = express();
-//app.use(express.static(__dirname + '/public'))
+app.use(express.json())
+const authRouter = require('./database/Register');
 
+//main
 app.get('/', mainPage);
+app.use('/api/auth', authRouter);
+
 
 const start = async () => {
     try {
-        const client = new MongoClient('mongodb://localhost:27017/')
-        await client.connect();
-        console.log('db has been connected');
+        await mongoose.connect(process.env.DB_URL);
     } catch (e) {
         console.log(e)
     } finally {
