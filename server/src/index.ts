@@ -4,8 +4,6 @@ const express = require('express');
 require('dotenv').config({path: '../.env'})
 //const jsonParser = express.json();
 
-const PORT = parseInt(process.env.PORT, 10);
-
 //user functions
 import {mainPage} from "./Router";
 
