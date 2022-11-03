@@ -1,8 +1,5 @@
-const {MongoClient} = require('mongodb');
-
-export const connectDB = async (url:string) => {
+export const connectDB = async (client:any) => {
     try {
-        const client = new MongoClient('mongodb://localhost:27017/');
         await client.connect();
         console.log('db has been connected');
     } catch (e) {

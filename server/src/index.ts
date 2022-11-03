@@ -1,25 +1,26 @@
 //libs
-import {connectDB} from "./database/database";
-
 const {MongoClient} = require('mongodb');
 const express = require('express');
-require('dotenv').config({path: '../.env'})
-//const jsonParser = express.json();
 
-const PORT = parseInt(process.env.PORT, 10);
+//dotenv
+require('dotenv').config()
 
 //user functions
 import {mainPage} from "./Router";
+import {connectDB} from "./database/database";
+
+//mongodb initialization
+const client = new MongoClient(process.env.DB_URL)
 
 //express app initialization
 const app = express();
-//app.use(express.static(__dirname + '/public'))
 
+//main
 app.get('/', mainPage);
 
 const start = async () => {
     try {
-        connectDB('mongodb://localhost:27017/')
+        await connectDB(client);
     } catch (e) {
         console.log(e)
     } finally {
