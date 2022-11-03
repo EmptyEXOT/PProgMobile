@@ -1,4 +1,6 @@
 //libs
+import {connectDB} from "./database/database";
+
 const {MongoClient} = require('mongodb');
 const express = require('express');
 require('dotenv').config({path: '../.env'})
@@ -17,9 +19,7 @@ app.get('/', mainPage);
 
 const start = async () => {
     try {
-        const client = new MongoClient('mongodb://localhost:27017/')
-        await client.connect();
-        console.log('db has been connected');
+        connectDB('mongodb://localhost:27017/')
     } catch (e) {
         console.log(e)
     } finally {
