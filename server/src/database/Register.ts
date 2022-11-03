@@ -1,18 +1,39 @@
-const {MongoClient} = require('mongodb')
 require('dotenv').config();
+const bcrypt = require('bcryptjs');
+const {check, validationResult} = require('express-validator');
 
+const {Router} = require('express');
+const authRouter = new Router();
 
+const {User} = require('./Schemas/User');
 
-export const registerUser = async () => {
-    const client = new MongoClient(process.env.DB_URL);
+authRouter.post('/registration',
+    [
+    check('email', 'incorrect email').isEmail(),
+    check('password', 'password length should be more then 8 and more then 16').isLength({min: 8, max: 16})
+    ],
+    async (req, res) => {
     try {
-        await client.connect();
-        console.log('registration logic')
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) return res.status(400).json({message: 'incorrect request', errors});
+
+        const {email, password} = req.body;
+
+        const tempUser = await User.findOne({email});
+
+        if (tempUser) return res.status(400).json({message: `user with email ${email} already exist`});
+
+        const hashPassword = await bcrypt.hash(password, 15);
+        const user = new User({email, password: hashPassword});
+
+        await user.save();
+
+        return res.json({message: 'user has been created'});
     } catch (e) {
-        //errors handler
-        console.log(e)
-    } finally {
-        //mongodb client close
-        await client.close()
+        console.log(e);
+        res.send({message: 'server error'})
     }
-}
+})
+
+module.exports = authRouter;
+
