@@ -1,5 +1,6 @@
 require('dotenv').config();
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const {check, validationResult} = require('express-validator');
 const mongoose = require('mongoose');
 
@@ -24,12 +25,36 @@ authRouter.post('/registration',
 
         if (tempUser) return res.status(400).json({message: `user with email ${email} already exist`});
 
-        const hashPassword = await bcrypt.hash(password, 15);
+        const hashPassword = await bcrypt.hash(password, 8);
         const user = await new User({email, password: hashPassword});
 
         await user.save();
 
         return res.json({message: 'user has been created'});
+    } catch (e) {
+        console.log(e);
+        res.send({message: 'server error'})
+    }
+})
+
+authRouter.post('/login', async (req:any, res:any) => {
+    try {
+        const {email, password} = req.body;
+        const user = await User.findOne({email});
+        if (!user) res.status(404).json({message: 'user not found'});
+
+        const isPassValid = bcrypt.compareSync(password, user.password);
+        if (!isPassValid) res.status(400).json({message: 'incorrect password'});
+
+        const token = jwt.sign({id: user.id}, process.env.SECRET_KEY, {expiresIn: '1h'});
+        return res.json({
+            token,
+            user: {
+                id: user.id,
+                email:user.email,
+            }
+        })
+
     } catch (e) {
         console.log(e);
         res.send({message: 'server error'})
