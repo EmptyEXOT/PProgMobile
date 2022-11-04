@@ -1,13 +1,11 @@
 //libs
 const express = require('express');
 
-
 //dotenv
 require('dotenv').config()
 
 //user functions
-import {mainPage} from "./Router";
-import {connectDB} from "./database/database";
+import {mainPage} from "./Routers/MainPage";
 const mongoose = require('mongoose');
 //mongodb initialization
 
