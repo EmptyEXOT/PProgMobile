@@ -1,5 +1,4 @@
 const {User} = require('./Schemas/User');
-const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs');
 
 const getUserByEmail = async (email: string) => {

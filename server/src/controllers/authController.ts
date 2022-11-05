@@ -1,20 +1,7 @@
 require('dotenv').config();
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const mongoose = require('mongoose');
 const {validationResult} = require('express-validator');
-const {registerUser} = require('../models/UserModel');
 const {getUserByEmail, createNewUser, checkUserPassword} = require('../models/UserModel');
-
-const {User} = require('./Schemas/User')
-
-const generateAccessToken = (id: any, roles: any) => {
-    const payload = {
-        id,
-        roles,
-    };
-    return jwt.sign(payload, process.env.SECRET_KEY, {expiresIN: '1h'});
-}
+const {generateAccessToken} = require('../utils/GenerateAccessToken')
 
 const register = async (req: any, res: any) => {
     try {
@@ -39,7 +26,7 @@ const login = async (req: any, res: any) => {
 
         if (!checkUserPassword(user, password)) res.status(400).json({message: 'incorrect password'});
 
-        const token = jwt.sign({id: user.id}, process.env.SECRET_KEY, {expiresIn: '1h'});
+        const token = generateAccessToken({user});
         return res.json({
             token,
             user: {
@@ -47,7 +34,6 @@ const login = async (req: any, res: any) => {
                 email: user.email,
             }
         })
-
     } catch (e) {
         console.log(e);
         res.send({message: 'server error'})
