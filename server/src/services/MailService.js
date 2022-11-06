@@ -1,8 +1,6 @@
 const nodemailer = require('nodemailer');
 
 class MailService {
-    private transporter: any;
-
     constructor() {
         this.transporter = nodemailer.createTransport({
                 host: process.env.SMTP_HOST,
@@ -16,7 +14,7 @@ class MailService {
         )
     }
 
-    public async sendActivationLink(to:any, link:any) {
+    async sendActivationLink(to, link) {
         await this.transporter.sendMail({
             from: process.env.SMTP_USER,
             to,
@@ -33,4 +31,4 @@ class MailService {
     }
 }
 
-export = new MailService();
+module.exports = new MailService();

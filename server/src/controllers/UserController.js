@@ -1,7 +1,7 @@
 const userService = require('../services/UserService');
 
 class UserController {
-    public async registration(req: any, res: any, next: any) {
+    async registration(req, res, next) {
         try {
             const {email, password} = req.body;
             const userData = await userService.registration(email, password);
@@ -12,13 +12,13 @@ class UserController {
         }
     };
 
-    public login(req:any, res:any, next:any) {
+    login(req, res, next) {
     };
 
-    public logout(req:any, res:any, next:any) {
+    logout(req, res, next) {
     };
 
-    public async activate(req:any, res:any, next:any) {
+    async activate(req, res, next) {
         try {
             const activationLink = req.params.link;
             await userService.activate(activationLink);
@@ -28,10 +28,10 @@ class UserController {
         }
     };
 
-    public refresh(req:any, res:any, next:any) {
+    refresh(req, res, next) {
     };
 
-    public getUsers(req:any, res:any, next:any) {
+    getUsers(req, res, next) {
     }
 }
 
