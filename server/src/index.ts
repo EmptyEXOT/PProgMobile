@@ -1,33 +1,31 @@
-//libs
+require('dotenv').config();
+
 const express = require('express');
-
-//dotenv
-require('dotenv').config()
-
-//user functions
-import {mainPage} from "./Routers/MainPage";
+const cookieParser = require('cookie-parser');
+const cors = require('cors');
 const mongoose = require('mongoose');
-//mongodb initialization
+const router = require('./Router/index');
 
-//express app initialization
 const app = express();
-app.use(express.json())
-const authRouter = require('./database/Register');
+const PORT = process.env.PORT;
 
-//main
-app.get('/', mainPage);
-app.use('/api/auth', authRouter);
+app.use(express.json())
+app.use(cookieParser());
+app.use(cors());
+app.use('/api', router);
 
 
 const start = async () => {
     try {
-        await mongoose.connect(process.env.DB_URL);
-    } catch (e) {
-        console.log(e)
-    } finally {
-        app.listen(3000, process.env.IP, () => {
+        await mongoose.connect(process.env.DB_URL, {
+            useNewUrlParser: true,
+            UseUnifiedTopology: true,
+        });
+        app.listen(PORT, '127.0.0.1', () => {
             console.log(`server started on port 3000!`);
         })
+    } catch (e) {
+        console.log(e)
     }
 }
 
