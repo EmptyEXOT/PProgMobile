@@ -30,3 +30,5 @@ class UserService {
         user.save();
     }
 }
+
+export = new UserService();

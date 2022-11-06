@@ -4,7 +4,7 @@ class MailService {
     private transporter: any;
 
     constructor() {
-        this.transporter = nodemailer.createTrasport({
+        this.transporter = nodemailer.createTransport({
                 host: process.env.SMTP_HOST,
                 port: process.env.SMTP_PORT,
                 secure: false,
