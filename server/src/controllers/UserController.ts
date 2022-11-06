@@ -12,19 +12,26 @@ class UserController {
         }
     };
 
-    public login() {
+    public login(req:any, res:any, next:any) {
     };
 
-    public logout() {
+    public logout(req:any, res:any, next:any) {
     };
 
-    public activate() {
+    public async activate(req:any, res:any, next:any) {
+        try {
+            const activationLink = req.params.link;
+            await userService.activate(activationLink);
+            return res.redirect(process.env.CLIENT_URL);
+        } catch (e) {
+            console.log(e)
+        }
     };
 
-    public refresh() {
+    public refresh(req:any, res:any, next:any) {
     };
 
-    public getUsers() {
+    public getUsers(req:any, res:any, next:any) {
     }
 }
 

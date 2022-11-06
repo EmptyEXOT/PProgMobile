@@ -6,7 +6,7 @@ const tokenService = require('./TokenService');
 const UserDTO = require('../dtos/UserDTO')
 
 class UserService {
-    public async registration(email:string, password:string) {
+    public async registration(email: string, password: string) {
         const candidate = await userModel.findOne({email});
         if (candidate) throw new Error('user with such email already exist');
         const hashPassword = await bcrypt.hash(password, 7);
@@ -20,5 +20,13 @@ class UserService {
         await tokenService.saveToken(userDTO.id, tokens.refreshToken);
 
         return {...tokens, userDTO}
+    }
+
+    public async activate() {
+        // @ts-ignore
+        const user = await userModel.findOne({activationLink});
+        if (!user) throw new Error('Incorrect link');
+        user.isActivated = true;
+        user.save();
     }
 }
