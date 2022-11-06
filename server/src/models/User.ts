@@ -8,4 +8,6 @@ const UserSchema = new Schema({
     createdAt: {type: Date, default: Date.now()}
 });
 
-export const User = model('User', UserSchema);
+export = {
+    userModel: model('User', UserSchema)
+}
