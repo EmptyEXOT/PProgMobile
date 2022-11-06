@@ -11,3 +11,5 @@ class UserDTO {
         this.isActivated = model.isActivated;
     }
 }
+
+export = UserDTO;
